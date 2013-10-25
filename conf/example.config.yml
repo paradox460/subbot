@@ -1,0 +1,29 @@
+# The bot's command prefix.
+prefix: '\'
+
+# IRC details
+irc:
+  # The IRC server to connect to
+  server: 'irc.snoonet.org'
+  # The port to connect to
+  port: 6667
+  # Use SSL?
+  ssl: false
+  # The bot's nickname
+  nick: 'rAnnouncer'
+  # Modes the bot applies to itself
+  modes: 'B'
+  # SASL Auth
+  sasl:
+    username: 'rAnnouncer'
+    password:
+
+# Various messages the bot may send
+messages:
+  # Generic error message
+  failure: "Sorry, something went wrong :("
+
+# reddit polling settings
+reddit:
+  # How frequently to check for new posts
+  interval: 120

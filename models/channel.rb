@@ -4,6 +4,7 @@ module Database
 
     property :id, Serial
     property :name, String
+    property :creator, String
 
     has n, :assignments
     has n, :subreddits, through: :assignments

@@ -11,13 +11,21 @@ class Announcer
     # reddit only lets you use a multi-reddit of 50 subreddits, so we split the subreddits into chunks
     if subreddits.count > 50
       subreddits.each_slice(50) do |s|
-        d = @c.get_listing(subreddit: s.join('+'), page: 'new', limit: 100)
-        data += d['data']['children']
+        begin
+          d = @c.get_listing(subreddit: s.join('+'), page: 'new', limit: 100)
+          data += d['data']['children']
+        rescue => e
+          error e
+        end
         sleep 2
       end
     else
-      d = @c.get_listing(subreddit: subreddits.join('+'), page: 'new', limit: 100)
-      data += d['data']['children']
+      begin
+        d = @c.get_listing(subreddit: subreddits.join('+'), page: 'new', limit: 100)
+        data += d['data']['children']
+      rescue => e
+        error e
+      end
     end
 
     # Throw away anything older than our interval
@@ -33,9 +41,21 @@ class Announcer
     # Start making the announcement, based on subreddit
     # This can get floody, theoretically, but real world experience shows it doesnt
     data.each do |t|
-      channels = Database::Subreddit.first(:name.like => t['data']['subreddit'] ).channels
-      channels.each do |c|
-        Channel(c.name).msg("r/#{Format(:bold, t['data']['subreddit'])}: <#{Format(:italic,t['data']['author'])}> #{t['data']['title']} (http://redd.it/#{t['data']['id']})")
+      begin
+        debug "Starting channel lookup for #{t['data']['subreddit']}"
+        channels = Database::Subreddit.first(:name.like => t['data']['subreddit']).channels
+        debug "Got #{channels.count} channels: #{channels.map(&:name).join(', ')}"
+        channels.each do |c|
+          begin
+            if bot.channels.include?(c.name)
+              Channel(c.name).msg("r/#{Format(:bold, t['data']['subreddit'])}: <#{t['data']['author'][0]}\u2063#{t['data']['author'][1..-1]}> #{t['data']['title']} (http://redd.it/#{t['data']['id']})")
+            end
+          rescue => e
+            error e
+          end
+        end
+      rescue => e
+        error e
       end
     end
   end

@@ -6,6 +6,8 @@ gem 'activesupport', '~>4.0'
 
 gem 'snoo'
 
+gem 'pry'
+
 group :db do
   gem 'dm-sqlite-adapter'
   gem 'data_mapper'

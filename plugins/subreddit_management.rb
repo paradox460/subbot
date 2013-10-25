@@ -15,13 +15,17 @@ class SubredditManagement
 
   def add_subreddit(m, subreddit)
     opcheck(m) do
-      sr = Database::Subreddit.first_or_create(name: subreddit)
-      c = Database::Channel.first_or_create(name: m.channel.to_s)
-      c.subreddits << sr
-      if c.save
-        m.reply "Added!"
+      if subreddit =~ Regexp.union(SubbotConstants::BADSUBS)
+        m.reply "Try a real subreddit please"
       else
-        m.reply CONFIG['messages']['failure']
+        sr = Database::Subreddit.first_or_create(name: subreddit)
+        c = Database::Channel.first_or_create(name: m.channel.to_s)
+        c.subreddits << sr
+        if c.save
+          m.reply "Added!"
+        else
+          m.reply CONFIG['messages']['failure']
+        end
       end
     end
   end
