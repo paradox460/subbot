@@ -48,7 +48,7 @@ class Announcer
         channels.each do |c|
           begin
             if bot.channels.include?(c.name)
-              Channel(c.name).msg("r/#{Format(:bold, t['data']['subreddit'])}: <#{t['data']['author'][0]}\u2063#{t['data']['author'][1..-1]}> #{t['data']['title']} ( http://redd.it/#{t['data']['id']} )")
+              Channel(c.name).msg("r/#{Format(:bold, t['data']['subreddit'])}: <#{t['data']['author']}> #{t['data']['title']} ( http://redd.it/#{t['data']['id']} )")
             end
           rescue => e
             error e
