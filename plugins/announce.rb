@@ -3,7 +3,9 @@ class Announcer
   timer((CONFIG['reddit']['interval'].to_i), method: :announce)
 
   def announce
-    @c = Snoo::Client.new
+    opts = {useragent: "Subbot IRC announcer"}
+    opts.merge!({modhash: CONFIG['reddit']['account']['modhash'], cookies: CONFIG['reddit']['account']['cookies']}).delete_if {|k, v| v.nil? }
+    @c = Snoo::Client.new opts
 
     sr = Database::Subreddit.all
     subreddits = sr.map(&:name)

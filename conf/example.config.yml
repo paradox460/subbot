@@ -27,3 +27,9 @@ messages:
 reddit:
   # How frequently to check for new posts
   interval: 120
+
+  # reddit account credentials
+  account:
+    # Get these details by using the auth.rb script
+    modhash:
+    cookies:
