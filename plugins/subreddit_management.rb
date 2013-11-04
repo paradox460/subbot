@@ -48,6 +48,10 @@ class SubredditManagement
 
   def list_subreddits(m)
     subs = Database::Channel.first(name: m.channel.to_s).subreddits
-    m.safe_reply subs.map { |x| "/r/#{x.name}" }.to_sentence
+    if subs.empty?
+      m.reply "No subreddits assigned!"
+    else
+      m.safe_reply subs.map { |x| "/r/#{x.name}" }.to_sentence
+    end
   end
 end
