@@ -14,30 +14,34 @@ class SubredditManagement
 
 
   def add_subreddit(m, subreddit)
-    opcheck(m) do
-      if subreddit =~ Regexp.union(SubbotConstants::BADSUBS)
-        m.reply "Try a real subreddit please"
-      else
-        sr = Database::Subreddit.first_or_create(name: subreddit)
-        c = Database::Channel.first_or_create(name: m.channel.to_s)
-        c.subreddits << sr
-        if c.save
-          m.reply "Added!"
+    admincheck(m) do
+      opcheck(m) do
+        if subreddit =~ Regexp.union(SubbotConstants::BADSUBS)
+          m.reply "Try a real subreddit please"
         else
-          m.reply CONFIG['messages']['failure']
+          sr = Database::Subreddit.first_or_create(name: subreddit)
+          c = Database::Channel.first_or_create(name: m.channel.to_s)
+          c.subreddits << sr
+          if c.save
+            m.reply "Added!"
+          else
+            m.reply CONFIG['messages']['failure']
+          end
         end
       end
     end
   end
 
   def del_subreddit(m, subreddit)
-    opcheck(m) do
-      c = Database::Channel.first(name: m.channel.to_s)
-      sr = Database::Subreddit.first(name: subreddit)
-      if Database::Assignment.get(c.id, sr.id).destroy
-        m.reply "Removed!"
-      else
-        m.reply CONFIG['messages']['failure']
+    admincheck(m) do
+      opcheck(m) do
+        c = Database::Channel.first(name: m.channel.to_s)
+        sr = Database::Subreddit.first(name: subreddit)
+        if Database::Assignment.get(c.id, sr.id).destroy
+          m.reply "Removed!"
+        else
+          m.reply CONFIG['messages']['failure']
+        end
       end
     end
   end

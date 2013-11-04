@@ -18,6 +18,10 @@ irc:
     username: 'rAnnouncer'
     password:
 
+# If any admins are set (users nickserv account name), only they can manage the bot (join/part it and add/remove subreddits)
+admins:
+  # - Paradox
+
 # Various messages the bot may send
 messages:
   # Generic error message
