@@ -3,9 +3,9 @@ class Announcer
   timer((CONFIG['reddit']['interval'].to_i), method: :announce)
 
   def announce
-    opts = {useragent: "Subbot IRC announcer"}
-    opts.merge!({modhash: CONFIG['reddit']['account']['modhash'], cookies: CONFIG['reddit']['account']['cookies']}).delete_if {|k, v| v.nil? }
-    @c = Snoo::Client.new opts
+    # Deal with the nil doesnt have a [] method shit
+    account = CONFIG.fetch('reddit',{}).fetch('account',{}) || {}
+    @c = Snoo::Client.new useragent: "Subbot IRC announcer bot", modhash: account.fetch('modhash', nil), cookies: account.fetch('cookies', nil)
 
     sr = Database::Subreddit.all
     subreddits = sr.map(&:name)
