@@ -24,6 +24,12 @@ bot = Cinch::Bot.new do
     c.plugins.prefix = /^#{Regexp.escape(CONFIG['prefix'])}/
     c.plugins.plugins = [ChannelManagement, SubredditManagement, Announcer]
   end
+
+  if CONFIG['irc']['oper']
+    on :connect do |m|
+      m.bot.irc.send "OPER #{CONFIG['irc']['oper']['username']} #{CONFIG['irc']['oper']['password']}"
+    end
+  end
 end
 
 bot.start

@@ -17,6 +17,10 @@ irc:
   sasl:
     username: 'rAnnouncer'
     password:
+  If you want the bot to oper up on your network, uncomment and set these properties
+  # oper:
+  #   username:
+  #   password:
 
 # If any admins are set (users nickserv account name), only they can manage the bot (join/part it and add/remove subreddits)
 admins:
