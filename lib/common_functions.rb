@@ -9,7 +9,7 @@ module CommonFunctions
   end
 
   def admincheck(m)
-    if !CONFIG['admins'].nil? && !CONFIG['admins'].empty? && !CONFIG['admins'].include(m.user.authname)
+    if !CONFIG['admins'].nil? && !CONFIG['admins'].empty? && !CONFIG['admins'].include?(m.user.authname)
       return false
     else
       yield
