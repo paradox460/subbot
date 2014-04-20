@@ -8,8 +8,8 @@ class SubredditManagement
   set :plugin_name, "Subreddit Management"
   set :help, "Usage: #{CONFIG['prefix']}subreddit (add|del|list) <subreddit>"
 
-  match /subreddit add ([[:alnum:]]\w{2,20})/, method: :add_subreddit
-  match /subreddit del ([[:alnum:]]\w{2,20})/, method: :del_subreddit
+  match /subreddit add ([[:alnum:]]\w{1,20})/, method: :add_subreddit
+  match /subreddit del ([[:alnum:]]\w{1,20})/, method: :del_subreddit
   match /subreddit list/, method: :list_subreddits
 
 
