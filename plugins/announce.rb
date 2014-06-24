@@ -50,7 +50,9 @@ class Announcer
         channels.each do |c|
           begin
             if bot.channels.include?(c.name)
-              Channel(c.name).msg("r/#{Format(:bold, t['data']['subreddit'])}: <#{t['data']['author']}> #{t['data']['title']} ( http://redd.it/#{t['data']['id']} )")
+              message = "/r/#{Format(:bold, t['data']['subreddit'])}: <#{t['data']['author']}> #{t['data']['title']} ( http://redd.it/#{t['data']['id']} )"
+              message << " [ #{t['data']['url']} ]" if File.extname(t['data']['url']) =~ /\A\.(png|gif|jpe?g|webp)\z/i
+              Channel(c.name).msg(message)
             end
           rescue => e
             error e
