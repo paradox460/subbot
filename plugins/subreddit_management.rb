@@ -52,6 +52,7 @@ class SubredditManagement
       m.reply "No subreddits assigned!"
     else
       m.safe_reply subs.map { |x| "/r/#{x.name}" }.to_sentence
+      m.safe_reply "Multireddit of subs: http://www.reddit.com/r/#{subs.map(&:name).join('+')}"
     end
   end
 end
