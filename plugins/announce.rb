@@ -51,7 +51,11 @@ class Announcer
           begin
             if bot.channels.include?(c.name)
               message = "/r/#{Format(:bold, t['data']['subreddit'])}: <#{t['data']['author']}> #{t['data']['title']} ( http://redd.it/#{t['data']['id']} )"
-              message << " [ #{t['data']['url']} ]" if File.extname(t['data']['url']) =~ /\A\.(png|gif|jpe?g|webp)\z/i
+              if File.extname(t["data"]["url"]) =~ /\A\.(png|gif|jpe?g|webp)\z/i
+                message << " [ #{t["data"]["url"]} ]"
+              else
+                message << " [ #{t["data"]["domain"]} ]"
+              end
               Channel(c.name).msg(message)
             end
           rescue => e
