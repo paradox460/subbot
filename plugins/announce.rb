@@ -54,7 +54,7 @@ class Announcer
               if File.extname(t["data"]["url"]) =~ /\A\.(png|gif|jpe?g|webp)\z/i
                 message << " [ #{t["data"]["url"]} ]"
               else
-                message << " [ #{t["data"]["domain"]} ]" # self.AskReddit, bbc.co.uk, etc.
+                message << " [ #{t["data"]["domain"]} ]"
               end
               Channel(c.name).msg(message)
             end
