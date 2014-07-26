@@ -5,6 +5,7 @@ Bundler.require(:default, :db, :irc)
 require './conf/database'
 require 'yaml'
 require './lib/constants'
+require 'cgi'
 
 CONFIG = YAML.load_file('conf/config.yml')
 
